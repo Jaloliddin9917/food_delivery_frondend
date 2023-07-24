@@ -1,5 +1,5 @@
 const config = require('../../package.json').projectConfig;
-const BACKEND_BASE_URL = `http://127.0.0.1:3000`;
+const BACKEND_BASE_URL = config.backendApiBaseUrl;
 
 const COUNTRY_FLAG = {
   BASE_URL: 'https://www.countryflagicons.com',

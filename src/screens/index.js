@@ -5,6 +5,7 @@ import SignupScreen from './SignupScreen';
 import ForgotPasswordScreen from './ForgotPasswordScreen';
 import RegisterPhoneScreen from './RegisterPhoneScreen';
 import VerificationScreen from './VerificationScreen';
+import HomeScreen from './HomeScreen';
 
 export {
   SplashScreen,
@@ -13,5 +14,6 @@ export {
   SignupScreen,
   ForgotPasswordScreen,
   RegisterPhoneScreen,
-  VerificationScreen
+  VerificationScreen,
+  HomeScreen,
 };

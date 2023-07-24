@@ -15,7 +15,7 @@ import {Separator} from '../components';
 import {Display} from '../utils';
 import Feather from 'react-native-vector-icons/Feather';
 import {AuthenticationService} from '../services';
-// import LottieView from 'lottie-react-native';
+import LottieView from 'lottie-react-native';
 
 const inputStyle = state => {
   switch (state) {
@@ -79,16 +79,39 @@ const SignupScreen = ({navigation}) => {
       email,
       password,
     };
-    // console.log(user);
-    // setIsLoading(true);
+
     AuthenticationService.register(user).then(response => {
-      console.log(response);
-      // setIsLoading(false);
-      // if (!response?.status) {
-      //   setErrorMessage(response?.message);
-      // }
+      setIsLoading(false);
+      if (!response?.status) {
+        setErrorMessage(response?.message);
+      }
     });
     // navigation.navigate('RegisterPhone');
+  };
+
+  const checkUserExist = async (type, value) => {
+    if (value?.length > 0) {
+      AuthenticationService.checkUserExist(type, value).then(response => {
+        if (response?.status) {
+          type === 'email' && emailErrorMessage
+            ? setEmailErrorMessage('')
+            : null;
+
+          type === 'username' && usernameErrorMessage
+            ? setUsernameErrorMessage('')
+            : null;
+          type === 'email' ? setEmailState('valid') : null;
+          type === 'username' ? setUsernameState('valid') : null;
+        } else {
+          type === 'email' ? setEmailErrorMessage(response?.message) : null;
+          type === 'username'
+            ? setUsernameErrorMessage(response?.message)
+            : null;
+          type === 'email' ? setEmailState('invalid') : null;
+          type === 'username' ? setUsernameState('invalid') : null;
+        }
+      });
+    }
   };
 
   return (
@@ -125,11 +148,11 @@ const SignupScreen = ({navigation}) => {
             selectionColor={Colors.DEFAULT_GREY}
             style={styles.inputText}
             onChangeText={text => setUsername(text)}
-            // onEndEditing={({nativeEvent: {text}}) =>
-            //   checkUserExist('username', text)
-            // }
+            onEndEditing={({nativeEvent: {text}}) =>
+              checkUserExist('username', text)
+            }
           />
-          {/* {showMarker(usernameState)} */}
+          {showMarker(usernameState)}
         </View>
       </View>
       <Text style={styles.errorMessage}>{usernameErrorMessage}</Text>
@@ -147,11 +170,11 @@ const SignupScreen = ({navigation}) => {
             selectionColor={Colors.DEFAULT_GREY}
             style={styles.inputText}
             onChangeText={text => setEmail(text)}
-            // onEndEditing={({nativeEvent: {text}}) =>
-            //   checkUserExist('email', text)
-            // }
+            onEndEditing={({nativeEvent: {text}}) =>
+              checkUserExist('email', text)
+            }
           />
-          {/* {showMarker(emailState)} */}
+          {showMarker(emailState)}
         </View>
       </View>
       <Text style={styles.errorMessage}>{emailErrorMessage}</Text>
@@ -182,7 +205,11 @@ const SignupScreen = ({navigation}) => {
       </View>
       <Text style={styles.errorMessage}>{errorMessage}</Text>
       <TouchableOpacity style={styles.signinButton} onPress={() => registerr()}>
-        <Text style={styles.signinButtonText}>Create Account</Text>
+        {isLoading ? (
+          <LottieView source={Images.LOADING} autoPlay />
+        ) : (
+          <Text style={styles.signinButtonText}>Create Account</Text>
+        )}
       </TouchableOpacity>
       <Text style={styles.orText}>OR</Text>
       <TouchableOpacity style={styles.facebookButton}>

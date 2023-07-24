@@ -13,9 +13,35 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import Feather from 'react-native-vector-icons/Feather';
 import {Colors, Fonts, Images} from '../contants';
 import {Display} from '../utils';
+import {AuthenticationService} from '../services';
+import LottieView from 'lottie-react-native';
+import {connect} from 'react-redux';
+import {GeneralAction} from '../actions';
 
-const SigninScreen = ({navigation}) => {
+const SigninScreen = ({navigation, setToken}) => {
   const [isPsswordShow, setPasswordShow] = useState(false);
+  const [username, setUserName] = useState('');
+  const [password, setPassword] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
+
+  const signIn = async () => {
+    setIsLoading(true);
+
+    let user = {
+      username,
+      password,
+    };
+
+    AuthenticationService.login(user).then(response => {
+      setIsLoading(false);
+      setToken(response?.data);
+      if (!response?.status) {
+        setErrorMessage(response?.message);
+      }
+    });
+  };
+
   return (
     <View style={styles.container}>
       <StatusBar
@@ -49,6 +75,7 @@ const SigninScreen = ({navigation}) => {
             placeholderTextColor={Colors.DEFAULT_GREY}
             selectionColor={Colors.DEFAULT_GREY}
             style={styles.inputText}
+            onChangeText={text => setUserName(text)}
           />
         </View>
       </View>
@@ -67,6 +94,7 @@ const SigninScreen = ({navigation}) => {
             placeholderTextColor={Colors.DEFAULT_GREY}
             selectionColor={Colors.DEFAULT_GREY}
             style={styles.inputText}
+            onChangeText={text => setPassword(text)}
           />
           <Feather
             name={isPsswordShow ? 'eye' : 'eye-off'}
@@ -77,7 +105,7 @@ const SigninScreen = ({navigation}) => {
           />
         </View>
       </View>
-      <Text />
+      <Text style={styles.errorMessage}>{errorMessage}</Text>
       <View style={styles.forgotPasswordContainer}>
         <View style={styles.toggleContainer}>
           <ToggleButton size={0.5} />
@@ -91,9 +119,13 @@ const SigninScreen = ({navigation}) => {
       </View>
       <TouchableOpacity
         style={styles.signinButton}
-        // onPress={() => signIn()}
+        onPress={() => signIn()}
         activeOpacity={0.8}>
-        <Text style={styles.signinButtonText}>Sign In</Text>
+        {isLoading ? (
+          <LottieView source={Images.LOADING} autoPlay />
+        ) : (
+          <Text style={styles.signinButtonText}>Sign In</Text>
+        )}
       </TouchableOpacity>
       <View style={styles.signupContainer}>
         <Text style={styles.accountText}>Don't have an account?</Text>
@@ -297,4 +329,10 @@ const styles = StyleSheet.create({
   },
 });
 
-export default SigninScreen;
+const mapDispatchToProps = dispatch => {
+  return {
+    setToken: token => dispatch(GeneralAction.setToken(token)),
+  };
+};
+
+export default connect(null, mapDispatchToProps)(SigninScreen);
