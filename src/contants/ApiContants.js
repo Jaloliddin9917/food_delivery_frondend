@@ -7,12 +7,12 @@ const COUNTRY_FLAG = {
   STYLE: {FLAT: 'FLAT', SHINY: 'SHINY'},
 };
 
-// const STATIC_IMAGE = {
-//   BASE_URL: `${BACKEND_BASE_URL}/images`,
-//   TYPE: {POSTER: 'poster', LOGO: 'logo', GALLERY: 'gallery'},
-//   SIZE: {SQUARE: 'square', LANDSCAPE: 'landscape', PORTRAIT: 'portrait'},
-//   QUALITY: {SD: 'sd', HD: 'hd'},
-// };
+const STATIC_IMAGE = {
+  BASE_URL: `${BACKEND_BASE_URL}/images`,
+  TYPE: {POSTER: 'poster', LOGO: 'logo', GALLERY: 'gallery'},
+  SIZE: {SQUARE: 'square', LANDSCAPE: 'landscape', PORTRAIT: 'portrait'},
+  QUALITY: {SD: 'sd', HD: 'hd'},
+};
 
 const BACKEND_API = {
   BASE_API_URL: `${BACKEND_BASE_URL}/api`,
@@ -27,4 +27,4 @@ const BACKEND_API = {
   BOOKMARK: '/bookmark',
 };
 
-export default {COUNTRY_FLAG, BACKEND_API};
+export default {COUNTRY_FLAG, BACKEND_API, STATIC_IMAGE};

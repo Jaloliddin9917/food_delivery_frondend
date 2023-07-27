@@ -10,6 +10,9 @@ import {
 import {Colors, Fonts, General} from '../contants';
 import {Separator, WelcomeCard} from '../components';
 import {Display} from '../utils';
+import {useDispatch} from 'react-redux';
+import {StorageService} from '../services';
+import {GeneralAction} from '../actions';
 
 const pageStyle = isActive =>
   isActive
@@ -44,8 +47,12 @@ const WelcomeScreen = ({navigation}) => {
     });
   };
 
+  const dispatch = useDispatch();
+
   const navigate = () => {
-    navigation.navigate('Signin');
+    StorageService.setFirstTimeUse().then(() => {
+      dispatch(GeneralAction.setIsFirstTimeUse());
+    });
   };
 
   return (
