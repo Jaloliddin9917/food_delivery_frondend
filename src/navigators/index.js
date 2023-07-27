@@ -32,7 +32,7 @@ const Navigators = () => {
       <Stack.Navigator screenOptions={{headerShown: false}}>
         {isAppLoading ? (
           <Stack.Screen name="Splash" component={SplashScreen} />
-        ) : !token || token === null || token === '' ? (
+        ) : !token ? (
           <>
             {isFirstTimeUse && (
               <Stack.Screen name="Welcome" component={WelcomeScreen} />

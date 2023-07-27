@@ -27,9 +27,20 @@ const sortStyle = isActive =>
     : {...styles.sortListItem, borderBottomColor: Colors.DEFAULT_WHITE};
 
 const HomeScreen = ({navigation}) => {
-  const [activeCategory, setActiveCategory] = useState();
+  const [activeCategory, setActiveCategory] = useState('');
   const [restaurants, setRestaurants] = useState(null);
   const [activeSortItem, setActiveSortItem] = useState('recent');
+
+  useEffect(() => {
+    const unsubscribe = navigation.addListener('focus', () => {
+      RestaurantService.getRestaurants().then(response => {
+        if (response?.status) {
+          setRestaurants(response?.data);
+        }
+      });
+    });
+    return unsubscribe;
+  }, []);
 
   return (
     <View style={styles.container}>
@@ -80,7 +91,16 @@ const HomeScreen = ({navigation}) => {
             style={{marginRight: 10}}
           />
         </View>
-        <View style={styles.categoriesContainer}></View>
+        <View style={styles.categoriesContainer}>
+          {Mock.CATEGORIES.map(({name, logo}) => (
+            <CategoryMenuItem
+              name={name}
+              logo={logo}
+              activeCategory={activeCategory}
+              setActiveCategory={setActiveCategory}
+            />
+          ))}
+        </View>
       </View>
       <ScrollView style={styles.listContainer}>
         <View style={styles.horizontalListContainer}>
@@ -88,6 +108,15 @@ const HomeScreen = ({navigation}) => {
             <Text style={styles.listHeaderTitle}>Top Rated</Text>
             <Text style={styles.listHeaderSubtitle}>See All</Text>
           </View>
+          <FlatList
+            data={restaurants}
+            keyExtractor={item => item?.id}
+            horizontal
+            ListHeaderComponent={() => <Separator width={20} />}
+            ListFooterComponent={() => <Separator width={20} />}
+            ItemSeparatorComponent={() => <Separator width={10} />}
+            renderItem={({item}) => <RestaurantCard {...item} />}
+          />
         </View>
         <View style={styles.sortListContainer}>
           <TouchableOpacity
@@ -121,6 +150,9 @@ const HomeScreen = ({navigation}) => {
             <Text style={styles.sortListItemText}>Trending</Text>
           </TouchableOpacity>
         </View>
+        {restaurants?.map(item => (
+          <RestaurantMediumCard {...item} key={item?.id} />
+        ))}
 
         <Separator height={Display.setHeight(5)} />
       </ScrollView>

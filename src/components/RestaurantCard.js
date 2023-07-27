@@ -81,9 +81,10 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     elevation: 3,
     marginBottom: 5,
+    width: 300,
   },
   posterStyle: {
-    width: 1920 * 0.15,
+    width: 290,
     height: 1080 * 0.15,
     borderRadius: 10,
     margin: 5,
