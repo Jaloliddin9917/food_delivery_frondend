@@ -1,19 +1,17 @@
 import StaticImageService from './StaticImageService';
-import AuthenticationService from './AuthenticationService';
+import AuthenicationService from './AuthenticationService';
 import StorageService from './StorageService';
 import RestaurantService from './RestaurantService';
-import UserService from './UserService';
-import BookmarkService from './BookmarkService';
-import FoodService from './FoodService';
 import CartService from './CartService';
+import FoodService from './FoodService';
+import BookmarkService from './BookmarkService';
 
 export {
   StaticImageService,
-  AuthenticationService,
+  AuthenicationService,
   StorageService,
   RestaurantService,
-  UserService,
-  BookmarkService,
-  FoodService,
   CartService,
+  FoodService,
+  BookmarkService,
 };

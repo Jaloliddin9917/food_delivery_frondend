@@ -10,7 +10,10 @@ import {
   RegisterPhoneScreen,
   VerificationScreen,
   HomeScreen,
+  RestaurantScreen,
+  FoodScreen,
 } from '../screens';
+import HomeTabs from './BottomTabs';
 import {useSelector, useDispatch} from 'react-redux';
 import {GeneralAction} from '../actions';
 
@@ -20,7 +23,6 @@ const Navigators = () => {
   const {isAppLoading, token, isFirstTimeUse} = useSelector(
     state => state?.generalState,
   );
-
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -32,7 +34,7 @@ const Navigators = () => {
       <Stack.Navigator screenOptions={{headerShown: false}}>
         {isAppLoading ? (
           <Stack.Screen name="Splash" component={SplashScreen} />
-        ) : !token ? (
+        ) : !token || token === null || token === '' ? (
           <>
             {isFirstTimeUse && (
               <Stack.Screen name="Welcome" component={WelcomeScreen} />
@@ -50,7 +52,11 @@ const Navigators = () => {
             <Stack.Screen name="Verification" component={VerificationScreen} />
           </>
         ) : (
-          <Stack.Screen name="Home" component={HomeScreen} />
+          <>
+            <Stack.Screen name="HomeTabs" component={HomeTabs} />
+            <Stack.Screen name="Restaurant" component={RestaurantScreen} />
+            <Stack.Screen name="Food" component={FoodScreen} />
+          </>
         )}
       </Stack.Navigator>
     </NavigationContainer>

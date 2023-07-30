@@ -13,7 +13,7 @@ import Feather from 'react-native-vector-icons/Feather';
 import {Colors, Fonts} from '../contants';
 import {Display} from '../utils';
 
-const ForgotPasswordScreen = ({navigation}) => {
+const ForgotPasswordScreen = () => {
   return (
     <View style={styles.container}>
       <StatusBar

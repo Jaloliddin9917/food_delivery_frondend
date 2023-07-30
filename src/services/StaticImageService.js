@@ -1,10 +1,10 @@
 import {ApiContants} from '../contants';
 
 const getFlagIcon = (
-  code = 'UZ',
+  code = 'IN',
   style = ApiContants.COUNTRY_FLAG.STYLE.FLAT,
   size = ApiContants.COUNTRY_FLAG.SIZE[64],
-) => `${ApiContants.COUNTRY_FLAG.BASE_URL}/${style}/${size}/${code}.png`;
+) => `${ApiContants.COUNTRY_FLAG.BASE_URL}/${code}/${style}/${size}.png`;
 
 const getLogo = imageId =>
   `${ApiContants.STATIC_IMAGE.BASE_URL}/logo/${imageId}.png`;

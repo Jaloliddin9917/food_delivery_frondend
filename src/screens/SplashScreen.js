@@ -1,9 +1,9 @@
 import React from 'react';
 import {View, Text, StyleSheet, StatusBar, Image} from 'react-native';
-import {Colors, Fonts, Images} from '../contants';
+import {Colors, Images, Fonts} from '../contants';
 import {Display} from '../utils';
 
-const SplashScreen = ({navigation}) => {
+const SplashScreen = () => {
   return (
     <View style={styles.container}>
       <StatusBar
@@ -31,7 +31,7 @@ const styles = StyleSheet.create({
   titleText: {
     color: Colors.DEFAULT_WHITE,
     fontSize: 32,
-    fontFamily: Fonts.POPPINS_SEMI_BOLD,
+    fontFamily: Fonts.POPPINS_LIGHT,
   },
 });
 

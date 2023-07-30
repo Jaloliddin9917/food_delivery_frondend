@@ -16,7 +16,6 @@ const VerificationScreen = ({
   route: {
     params: {phoneNumber},
   },
-  navigation,
 }) => {
   const firstInput = useRef();
   const secondInput = useRef();

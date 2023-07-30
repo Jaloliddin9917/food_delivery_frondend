@@ -1,9 +1,9 @@
 import React, {useState} from 'react';
 import {
   View,
-  StatusBar,
-  StyleSheet,
   Text,
+  StyleSheet,
+  StatusBar,
   TextInput,
   TouchableOpacity,
   Image,
@@ -13,14 +13,14 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import Feather from 'react-native-vector-icons/Feather';
 import {Colors, Fonts, Images} from '../contants';
 import {Display} from '../utils';
-import {AuthenticationService, StorageService} from '../services';
+import {AuthenicationService, StorageService} from '../services';
 import LottieView from 'lottie-react-native';
+import {useDispatch, useSelector} from 'react-redux';
 import {GeneralAction} from '../actions';
-import {useDispatch} from 'react-redux';
 
 const SigninScreen = ({navigation}) => {
-  const [isPsswordShow, setPasswordShow] = useState(false);
-  const [username, setUserName] = useState('');
+  const [isPasswordShow, setIsPasswordShow] = useState(false);
+  const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
@@ -33,7 +33,7 @@ const SigninScreen = ({navigation}) => {
       username,
       password,
     };
-    AuthenticationService.login(user).then(response => {
+    AuthenicationService.login(user).then(response => {
       setIsLoading(false);
       if (response?.status) {
         StorageService.setToken(response?.data).then(() => {
@@ -55,7 +55,7 @@ const SigninScreen = ({navigation}) => {
       <Separator height={StatusBar.currentHeight} />
       <View style={styles.headerContainer}>
         <Ionicons
-          name="arrow-forward-circle-outline"
+          name="chevron-back-outline"
           size={30}
           onPress={() => navigation.goBack()}
         />
@@ -78,7 +78,7 @@ const SigninScreen = ({navigation}) => {
             placeholderTextColor={Colors.DEFAULT_GREY}
             selectionColor={Colors.DEFAULT_GREY}
             style={styles.inputText}
-            onChangeText={text => setUserName(text)}
+            onChangeText={text => setUsername(text)}
           />
         </View>
       </View>
@@ -92,7 +92,7 @@ const SigninScreen = ({navigation}) => {
             style={{marginRight: 10}}
           />
           <TextInput
-            secureTextEntry={isPsswordShow ? false : true}
+            secureTextEntry={isPasswordShow ? false : true}
             placeholder="Password"
             placeholderTextColor={Colors.DEFAULT_GREY}
             selectionColor={Colors.DEFAULT_GREY}
@@ -100,11 +100,11 @@ const SigninScreen = ({navigation}) => {
             onChangeText={text => setPassword(text)}
           />
           <Feather
-            name={isPsswordShow ? 'eye' : 'eye-off'}
+            name={isPasswordShow ? 'eye' : 'eye-off'}
             size={22}
             color={Colors.DEFAULT_GREY}
             style={{marginRight: 10}}
-            onPress={() => setPasswordShow(!isPsswordShow)}
+            onPress={() => setIsPasswordShow(!isPasswordShow)}
           />
         </View>
       </View>

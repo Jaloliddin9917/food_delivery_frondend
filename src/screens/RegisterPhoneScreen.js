@@ -20,7 +20,7 @@ const getDropdownStyle = y => ({...styles.countryDropdown, top: y + 60});
 
 const RegisterPhoneScreen = ({navigation}) => {
   const [selectedCountry, setSelectedCountry] = useState(
-    CountryCode.find(country => country.name === 'Uzbekistan'),
+    CountryCode.find(country => country.name === 'India'),
   );
   const [inputsContainerY, setInputsContainerY] = useState(0);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);

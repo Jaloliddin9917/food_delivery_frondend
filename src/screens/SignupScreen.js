@@ -14,7 +14,7 @@ import AntDesign from 'react-native-vector-icons/AntDesign';
 import {Separator} from '../components';
 import {Display} from '../utils';
 import Feather from 'react-native-vector-icons/Feather';
-import {AuthenticationService} from '../services';
+import {AuthenicationService} from '../services';
 import LottieView from 'lottie-react-native';
 
 const inputStyle = state => {
@@ -73,25 +73,25 @@ const SignupScreen = ({navigation}) => {
   const [emailState, setEmailState] = useState('default');
   const [usernameState, setUsernameState] = useState('default');
 
-  const registerr = () => {
+  const register = () => {
     let user = {
       username,
       email,
       password,
     };
-
-    AuthenticationService.register(user).then(response => {
+    setIsLoading(true);
+    AuthenicationService.register(user).then(response => {
       setIsLoading(false);
       if (!response?.status) {
         setErrorMessage(response?.message);
       }
     });
-    // navigation.navigate('RegisterPhone');
+    // navigation.navigate('RegisterPhone')
   };
 
   const checkUserExist = async (type, value) => {
     if (value?.length > 0) {
-      AuthenticationService.checkUserExist(type, value).then(response => {
+      AuthenicationService.checkUserExist(type, value).then(response => {
         if (response?.status) {
           type === 'email' && emailErrorMessage
             ? setEmailErrorMessage('')
@@ -204,7 +204,7 @@ const SignupScreen = ({navigation}) => {
         </View>
       </View>
       <Text style={styles.errorMessage}>{errorMessage}</Text>
-      <TouchableOpacity style={styles.signinButton} onPress={() => registerr()}>
+      <TouchableOpacity style={styles.signinButton} onPress={() => register()}>
         {isLoading ? (
           <LottieView source={Images.LOADING} autoPlay />
         ) : (

@@ -8,10 +8,10 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import {Colors, Fonts, General} from '../contants';
-import {Separator, WelcomeCard} from '../components';
+import {WelcomeCard, Separator} from '../components';
 import {Display} from '../utils';
-import {useDispatch} from 'react-redux';
 import {StorageService} from '../services';
+import {useDispatch} from 'react-redux';
 import {GeneralAction} from '../actions';
 
 const pageStyle = isActive =>
@@ -34,19 +34,18 @@ const Pagination = ({index}) => {
 };
 
 const WelcomeScreen = ({navigation}) => {
-  const [welListIndex, setWelListIndex] = useState(0);
-  const welListRef = useRef();
+  const [welcomeListIndex, setWelcomeListIndex] = useState(0);
+  const welcomeList = useRef();
   const onViewRef = useRef(({changed}) => {
-    setWelListIndex(changed[0].index);
+    setWelcomeListIndex(changed[0].index);
   });
   const viewConfigRef = useRef({viewAreaCoveragePercentThreshold: 50});
 
   const pageScroll = () => {
-    welListRef.current.scrollToIndex({
-      index: welListIndex < 2 ? welListIndex + 1 : welListIndex,
+    welcomeList.current.scrollToIndex({
+      index: welcomeListIndex < 2 ? welcomeListIndex + 1 : welcomeListIndex,
     });
   };
-
   const dispatch = useDispatch();
 
   const navigate = () => {
@@ -66,7 +65,7 @@ const WelcomeScreen = ({navigation}) => {
       <Separator height={Display.setHeight(8)} />
       <View style={styles.welcomeListContainer}>
         <FlatList
-          ref={welListRef}
+          ref={welcomeList}
           data={General.WELCOME_CONTENTS}
           keyExtractor={item => item.title}
           horizontal
@@ -79,9 +78,9 @@ const WelcomeScreen = ({navigation}) => {
         />
       </View>
       <Separator height={Display.setHeight(8)} />
-      <Pagination index={welListIndex} />
+      <Pagination index={welcomeListIndex} />
       <Separator height={Display.setHeight(8)} />
-      {welListIndex === 2 ? (
+      {welcomeListIndex === 2 ? (
         <TouchableOpacity
           style={styles.gettingStartedButton}
           activeOpacity={0.8}
@@ -91,9 +90,9 @@ const WelcomeScreen = ({navigation}) => {
       ) : (
         <View style={styles.buttonContainer}>
           <TouchableOpacity
-            style={{marginLeft: 10}}
             activeOpacity={0.8}
-            onPress={() => welListRef.current.scrollToEnd()}>
+            style={{marginLeft: 10}}
+            onPress={() => welcomeList.current.scrollToEnd()}>
             <Text style={styles.buttonText}>SKIP</Text>
           </TouchableOpacity>
           <TouchableOpacity
@@ -115,7 +114,7 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.DEFAULT_WHITE,
   },
   welcomeListContainer: {
-    height: Display.setHeight(50),
+    height: Display.setHeight(60),
   },
   pageContainer: {
     flexDirection: 'row',

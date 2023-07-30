@@ -27,7 +27,7 @@ const sortStyle = isActive =>
     : {...styles.sortListItem, borderBottomColor: Colors.DEFAULT_WHITE};
 
 const HomeScreen = ({navigation}) => {
-  const [activeCategory, setActiveCategory] = useState('');
+  const [activeCategory, setActiveCategory] = useState();
   const [restaurants, setRestaurants] = useState(null);
   const [activeSortItem, setActiveSortItem] = useState('recent');
 
@@ -94,6 +94,7 @@ const HomeScreen = ({navigation}) => {
         <View style={styles.categoriesContainer}>
           {Mock.CATEGORIES.map(({name, logo}) => (
             <CategoryMenuItem
+              key={name}
               name={name}
               logo={logo}
               activeCategory={activeCategory}
@@ -115,7 +116,14 @@ const HomeScreen = ({navigation}) => {
             ListHeaderComponent={() => <Separator width={20} />}
             ListFooterComponent={() => <Separator width={20} />}
             ItemSeparatorComponent={() => <Separator width={10} />}
-            renderItem={({item}) => <RestaurantCard {...item} />}
+            renderItem={({item}) => (
+              <RestaurantCard
+                {...item}
+                navigate={restaurantId =>
+                  navigation.navigate('Restaurant', {restaurantId})
+                }
+              />
+            )}
           />
         </View>
         <View style={styles.sortListContainer}>
@@ -153,7 +161,6 @@ const HomeScreen = ({navigation}) => {
         {restaurants?.map(item => (
           <RestaurantMediumCard {...item} key={item?.id} />
         ))}
-
         <Separator height={Display.setHeight(5)} />
       </ScrollView>
     </View>
